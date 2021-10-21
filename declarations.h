@@ -10,6 +10,7 @@
 #include <bitset>
 #include <math.h>
 #include <ctime>
+#include <vector>
 #include <chrono>
 using namespace std;
 
