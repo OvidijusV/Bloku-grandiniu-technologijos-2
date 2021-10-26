@@ -23,7 +23,6 @@ class Block{
     void mine();
     string getPrevHash();
     string getHash();
-    void output();
     int getDifficulty();
     string get_timestamp();
     int getTransactionCount();
@@ -104,25 +103,5 @@ int Block::getTransactionVolume(){
     return output;
 }
 
-void Block::output() {
-    ofstream blocks("blocks.txt");
-    blocks << "Block hash: " << getHash() << endl
-    << "Previous block hash: " << prevHash << endl
-    << "Timestamp: " << get_timestamp() << endl
-    << "Transaction number: " << getTransactionCount() << endl
-    << "Difficulty: " << difficulty << endl
-    << "Merkle root hash: " << setMerkleHash() << endl
-    << "Version: " << version << endl
-    << "Nonce: " << nonce << endl
-    << "Transactions volume: " << getTransactionVolume() << endl << endl
-    << "Transactions" << endl
-    << string(50, '-') << endl;
-    for(Transaction &t: transactions) {
-        blocks << "Transaction ID: " << t.transactionId << endl << "Sender public key: " << t.sender->getKey() << endl 
-        << "Receiver public key: " << t.receiver->getKey() << endl << "Transaction amount: " << t.amount << endl 
-        << "----------------------------------------------------------------------" << endl;
-    }
-    blocks.close();
-}
 
 #endif
