@@ -36,8 +36,8 @@ int main(){
     vector<Transaction> transactionToBlock;
     int numOfTransactions = 10000;
     addTransactionsToBlock(transactionToBlock, transactionPool, numOfTransactions);
-    Block genesisBlock(0, transactionToBlock);
-    Blockchain blockChain();
+    Block mainBlock(0, transactionToBlock);
+    Blockchain blockChain(mainBlock);
     int g = 1;
     while(transactionPool.size()>=100){
         transactionToBlock.clear();
