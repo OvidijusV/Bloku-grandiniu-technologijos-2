@@ -1,6 +1,4 @@
 #include "declarations.h"
-#include "Transaction.hpp"
-#include "Block.hpp"
 int countWords(string str)
 {
     
@@ -162,7 +160,7 @@ string hashFunction(string inputHash){
     return binaryToHex;
 };
 
-void addTransactionsToBlock(vector<Transaction> transactionToBlock, vector<Transaction> &transactionPool, int &numOfTransactions){
+/*void addTransactionsToBlock(vector<Transaction> transactionToBlock, vector<Transaction> &transactionPool, int &numOfTransactions){
     for(int i=0; i<100; i++){
         int transactionIndex = rand() % numOfTransactions;
         int transactionAmount = transactionPool[transactionIndex].amount;
@@ -172,4 +170,4 @@ void addTransactionsToBlock(vector<Transaction> transactionToBlock, vector<Trans
         transactionPool.erase(transactionPool.begin()+(transactionIndex-1));
         numOfTransactions--;
     }
-}
+}*/

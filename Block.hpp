@@ -4,7 +4,6 @@
 #include "declarations.h"
 #include "Transaction.hpp"
 #include "User.hpp"
-
 class Block{
     private:
     string prevHash;
@@ -29,6 +28,8 @@ class Block{
     string get_timestamp();
     int getTransactionCount();
     int getTransactionVolume();
+    double getVersion();
+    int getNonce();
 
 };
 
@@ -36,7 +37,7 @@ Block::Block(int IndexIn, vector<Transaction> transactions){
     index = IndexIn;
     this->transactions = transactions;
     nonce = -1;
-    this->timestamp = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+    this->timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
 bool Block::check_hash_difficulty(string &hash) {
@@ -76,12 +77,19 @@ string Block::getHash() {
 
 
 int Block::getDifficulty(){
-    return difficulty;
+    return this->difficulty;
 };
 
+double Block::getVersion(){
+    return this->version;
+};
+
+int Block::getNonce(){
+    return this->nonce;
+};
 
 string Block::get_timestamp() {
-    return timestamp;
+    return this->timestamp;
 };
 
 int Block::getTransactionCount() {
