@@ -24,9 +24,11 @@ class Block{
     void mine();
     string getPrevHash();
     string getHash();
-    //void output();
+    void output();
     int getDifficulty();
     string get_timestamp();
+    int getTransactionCount();
+    int getTransactionVolume();
 
 };
 
@@ -82,8 +84,21 @@ string Block::get_timestamp() {
     return timestamp;
 };
 
-/*void Block::output() {
-    cout << "Block hash: " << getHash() << endl
+int Block::getTransactionCount() {
+    return transactions.size();
+}
+
+int Block::getTransactionVolume(){
+    int output = 0;
+    for(Transaction& t: transactions) {
+        output += t.amount;
+    }
+    return output;
+}
+
+void Block::output() {
+    ofstream blocks("blocks.txt");
+    blocks << "Block hash: " << getHash() << endl
     << "Previous block hash: " << prevHash << endl
     << "Timestamp: " << get_timestamp() << endl
     << "Transaction number: " << getTransactionCount() << endl
@@ -95,8 +110,11 @@ string Block::get_timestamp() {
     << "Transactions" << endl
     << string(50, '-') << endl;
     for(Transaction &t: transactions) {
-        cout << t.to_sstream().rdbuf();
+        blocks << "Transaction ID: " << t.transactionId << endl << "Sender public key: " << t.sender->getKey() << endl 
+        << "Receiver public key: " << t.receiver->getKey() << endl << "Transaction amount: " << t.amount << endl 
+        << "----------------------------------------------------------------------" << endl;
     }
+    blocks.close();
 }
-*/
+
 #endif
