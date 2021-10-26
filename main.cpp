@@ -8,6 +8,8 @@ int main(){
     srand(time(0));
     vector<User> Users;
     vector<Transaction> transactionPool;
+
+    ofstream users("users.txt");
     for(int i=0; i<1000; i++){
         string name = "member" + to_string(i+1);
         int balance = 100 + (rand() % 1000000);
@@ -17,9 +19,13 @@ int main(){
         }
         publicKey = hashFunction(publicKey);
         User newMember(name, publicKey, balance);
+        users << "Name: " << name << endl << "Public key: " << publicKey << endl << "Balance: " << balance << endl 
+        << "----------------------------------------------------------------------" << endl;
         Users.push_back(newMember);
     }
-    
+    users.close();
+
+    ofstream transactions("transactions.txt");
     for(int i=0; i<10000; i++){
         int ranSender = rand() % 1000;
         int ranReceiver = rand() % 1000;
@@ -29,7 +35,11 @@ int main(){
         }
         User* sender = &Users[ranSender];
         User* receiver = &Users[ranReceiver];
-        Transaction newTransaction(sender, receiver, rand() % sender->getBalance());
+        int transactionAmount = rand() % sender->getBalance();
+        Transaction newTransaction(sender, receiver, transactionAmount);
+        transactions << "Transaction ID: " << newTransaction.transactionId << endl << "Sender public key: " << sender->getKey() << endl 
+        << "Receiver public key: " << receiver->getKey() << endl << "Transaction amount: " << transactionAmount << endl 
+        << "----------------------------------------------------------------------" << endl;
         transactionPool.push_back(newTransaction);
     }
 
