@@ -7,14 +7,16 @@ class User {
     public:
     string publicKey;
     User(string name, string publicKey, int balance);
+
     string getKey();
+    void setBalance(int);
+    string getName();
+    int getBalance();
 
     private:
     string name;
     int balance;
 
-    string getName();
-    int getBalance();
 };
 
 User::User(string name, string publicKey, int balance){
@@ -33,6 +35,10 @@ string User::getName(){
 
 int User::getBalance(){
     return this->balance;
+}
+
+void User::setBalance(int value) {
+    this->balance = value;
 }
 
 #endif

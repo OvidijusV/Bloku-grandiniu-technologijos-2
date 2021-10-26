@@ -17,7 +17,7 @@ using namespace std;
 void checkChoice(int &choice);
 int countWords(string str);
 string hashFunction(string inputHash);
-
+void addTransactionsToBlock(vector<Transaction> transactionToBlock, vector<Transaction> &transactionPool, int &numOfTransactions);
 
 
 

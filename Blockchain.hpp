@@ -5,38 +5,31 @@
 #include "Block.hpp"
 
 class Blockchain{
-    private:
-    vector<Block> blocks;
-
     public:
-    void addBlock(Block&);
-    int blockCount();
-    string getPrevBlockHash();
-    int getTransactionCount();
-    void outputBlock();
+    Blockchain(Block mainBlock);
+
+    void addBlock(Block blockNew);
+
+    private:
+    int difficulty;
+    vector<Block> blockChain;
+    Block getLastBlock() const;
 
 };
 
-void Blockchain::addBlock(Block& block) {
-    blocks.push_back(block);
-};
-
-int Blockchain::blockCount() {
-    return blocks.size();
+Blockchain::Blockchain(Block genesisBlock) {
+    blockChain.emplace_back(genesisBlock);
+    difficulty = 1;
 }
 
-int Blockchain::getTransactionCount() {
-    int output = 0;
-    for(Block &b: blocks) {
-        output += b.getTransactionCount();
-    }
-    return output;
-};
+Block Blockchain::getLastBlock() const{
+    return blockChain.back();
+}
 
-void Blockchain::outputBlock() {
-    cout << endl << string(50, '-') << endl << "***Blockchain***" << endl
-    << "Blocks number: " << blockCount() << endl
-    << "Transactions number: " << getTransactionCount() << endl;
+void Blockchain::addBlock(Block blockNew) {
+    blockNew.getPrevHash() = getLastBlock().getHash();
+    blockNew.mine();
+    blockChain.push_back(blockNew);
 }
 
 #endif

@@ -3,46 +3,57 @@
 
 #include "declarations.h"
 #include "Transaction.hpp"
+#include "User.hpp"
+
 class Block{
     private:
     string prevHash;
     string timestamp;
-    double version;
+    double version = 0.1;
+    int index;
     string merkleHash;
     int nonce;
     int difficulty;
     vector<Transaction> transactions;
+    bool check_hash_difficulty(string&);
 
     public:
-    Block(string prev_block_hash, int difficulty_target, double version);
+    Block(int nIndexIn, vector<Transaction> transactions);
     string setMerkleHash();
     //void add_transactions(vector<Transaction>&);
-    void addTransaction(Transaction&);
     void mine();
+    string getPrevHash();
     string getHash();
-    vector<Transaction> get_transactions();
-    void output();
-    int getTransactionCount();
+    //void output();
     int getDifficulty();
     string get_timestamp();
-    int getTransactionVolume();
 
 };
 
-Block::Block(string prevHash, int difficulty, double version) : 
-    prevHash{prevHash}, difficulty{difficulty}, version{version} {
-    nonce = 1;
-    timestamp = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();;
+Block::Block(int IndexIn, vector<Transaction> transactions){
+    index = IndexIn;
+    this->transactions = transactions;
+    nonce = -1;
+    this->timestamp = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 }
 
-void Block::addTransaction(Transaction transaction){
-    transactions.push_back(transaction);
-};
+bool Block::check_hash_difficulty(string &hash) {
+    for (int i = 0; i < difficulty; i++) {
+        if (hash[i] != '0'){
+            return false;
+        }
+    }
+    return true;
+}
 
-void Block::setMerkleHash(){
+string Block::getPrevHash(){
+    return this->prevHash;
+}
+
+string Block::setMerkleHash(){
     string hashMerkle;
     for(int i=0; i<transactions.size(); i++){
-        hashMerkle += transactions[i].transactionID;
+        hashMerkle += transactions[i].transactionId;
     }
     merkleHash = hashFunction(hashMerkle);
 };
@@ -61,31 +72,17 @@ string Block::getHash() {
     return hashFunction(ss.str());
 };
 
-int Block::getTransactionCount() {
-    return transactions.size();
-};
 
 int Block::getDifficulty(){
     return difficulty;
 };
 
-int Block::getTransactionVolume(){
-    int output = 0;
-    for(Transaction& t: transactions) {
-        output += t.get_amount();
-    }
-    return output;
-};
-
-vector<Transaction> Block::get_transactions() {
-    return transactions;
-};
 
 string Block::get_timestamp() {
     return timestamp;
 };
 
-void Block::output() {
+/*void Block::output() {
     cout << "Block hash: " << getHash() << endl
     << "Previous block hash: " << prevHash << endl
     << "Timestamp: " << get_timestamp() << endl
@@ -101,5 +98,5 @@ void Block::output() {
         cout << t.to_sstream().rdbuf();
     }
 }
-
+*/
 #endif
