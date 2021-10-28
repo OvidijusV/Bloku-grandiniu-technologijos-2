@@ -6,21 +6,21 @@
 #include "User.hpp"
 class Block{
     private:
-    string prevHash;
     string timestamp;
     double version = 0.1;
     int index;
     string merkleHash;
     int nonce;
-    int difficulty;
+    unsigned int difficulty;
     vector<Transaction> transactions;
-    bool check_hash_difficulty(string&);
 
     public:
+    string prevHash;
     Block(int nIndexIn, vector<Transaction> transactions);
+    string curHash;
     string setMerkleHash();
-    //void add_transactions(vector<Transaction>&);
-    void mine();
+    string genHash();
+    void mine(unsigned int difficulty);
     string getPrevHash();
     string getHash();
     int getDifficulty();
@@ -39,17 +39,12 @@ Block::Block(int IndexIn, vector<Transaction> transactions){
     this->timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
-bool Block::check_hash_difficulty(string &hash) {
-    for (int i = 0; i < difficulty; i++) {
-        if (hash[i] != '0'){
-            return false;
-        }
-    }
-    return true;
-}
-
 string Block::getPrevHash(){
     return this->prevHash;
+}
+
+string Block::getHash(){
+    return curHash;
 }
 
 string Block::setMerkleHash(){
@@ -57,20 +52,33 @@ string Block::setMerkleHash(){
     for(int i=0; i<transactions.size(); i++){
         hashMerkle += transactions[i].transactionId;
     }
-    merkleHash = hashFunction(hashMerkle);
+    //merkleHash = hashFunction(hashMerkle);
+    return hashFunction(hashMerkle);
 };
 
-void Block::mine() {
-    string block_hash = getHash();
-    while(!check_hash_difficulty(block_hash)) {
-        nonce++;    
-        block_hash = getHash();
+void Block::mine(unsigned int difficulty) {
+    char* cstr;
+    cstr = new char[difficulty+1];
+    for(int i=0; i<difficulty; i++){
+        cstr[i] = '0';
     }
+
+    cstr[difficulty] = '\0';
+    
+    string str(cstr);
+
+    merkleHash = setMerkleHash();
+    
+    while(curHash.substr(0, difficulty) !=str){
+        nonce++;
+        curHash = genHash();
+    }
+    cout << "Hash of block " << index << ": " << curHash << "\n";
 };
 
-string Block::getHash() {
+string Block::genHash() {
     stringstream ss;
-    ss << prevHash << timestamp << version << setMerkleHash() << nonce << difficulty;
+    ss << index << timestamp << version << nonce << prevHash;
     return hashFunction(ss.str());
 };
 

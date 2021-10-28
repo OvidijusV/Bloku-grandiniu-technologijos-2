@@ -9,16 +9,17 @@ class Blockchain{
     Blockchain(Block mainBlock);
 
     void addBlock(Block blockNew);
+    Block getLastBlock() const;
 
     private:
-    int difficulty;
+    unsigned int difficulty;
     vector<Block> blockChain;
-    Block getLastBlock() const;
+    
 
 };
 
-Blockchain::Blockchain(Block genesisBlock) {
-    blockChain.emplace_back(genesisBlock);
+Blockchain::Blockchain(Block mainBlock) {
+    blockChain.emplace_back(mainBlock);
     difficulty = 1;
 }
 
@@ -27,8 +28,11 @@ Block Blockchain::getLastBlock() const{
 }
 
 void Blockchain::addBlock(Block blockNew) {
-    blockNew.getPrevHash() = getLastBlock().getHash();
-    blockNew.mine();
+    cout << "sw" << endl;
+    blockNew.prevHash = getLastBlock().getHash();
+    cout << "nesw" << endl;
+    blockNew.mine(difficulty);
+    cout << "meee" << endl;
     blockChain.push_back(blockNew);
 }
 
