@@ -7,9 +7,8 @@
 class Blockchain{
     public:
     Blockchain(Block mainBlock);
-
+        Block getLastBlock() const;
     void addBlock(Block blockNew);
-    Block getLastBlock() const;
 
     private:
     unsigned int difficulty;
@@ -20,7 +19,7 @@ class Blockchain{
 
 Blockchain::Blockchain(Block mainBlock) {
     blockChain.emplace_back(mainBlock);
-    difficulty = 1;
+    difficulty = 3;
 }
 
 Block Blockchain::getLastBlock() const{

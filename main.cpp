@@ -72,7 +72,7 @@ int main(){
         cout << "Mining block " << g << "\n";
         blockChain.addBlock(Block(g, transactionToBlock));
         
-        /*blocks << "Block hash: " << blockChain.getLastBlock().getHash() << endl
+        blocks << "Block hash: " << blockChain.getLastBlock().getHash() << endl
         << "Previous block hash: " << blockChain.getLastBlock().getPrevHash() << endl
         << "Timestamp: " << blockChain.getLastBlock().get_timestamp() << endl
         << "Transaction number: " << blockChain.getLastBlock().getTransactionCount() << endl
@@ -87,7 +87,7 @@ int main(){
             blocks << "Transaction ID: " << t.transactionId << endl << "Sender public key: " << t.sender->getKey() << endl 
             << "Receiver public key: " << t.receiver->getKey() << endl << "Transaction amount: " << t.amount << endl 
             << "----------------------------------------------------------------------" << endl;
-        }*/
+        }
         g++;
     }
     blocks.close();

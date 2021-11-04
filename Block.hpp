@@ -4,30 +4,33 @@
 #include "declarations.h"
 #include "Transaction.hpp"
 #include "User.hpp"
+#include "md5.h"
 class Block{
     private:
-    string timestamp;
-    double version = 0.1;
+    int timestamp = 0;
     int index;
-    string merkleHash;
     int nonce;
-    unsigned int difficulty;
-    vector<Transaction> transactions;
+    string curHash;
+    string curData;
+
+    string genHash() const;
 
     public:
+    int version = 1;
+    vector<Transaction> transactions;
+    string merkleHash;
+    unsigned int difficulty;
     string prevHash;
     Block(int nIndexIn, vector<Transaction> transactions);
-    string curHash;
-    string setMerkleHash();
-    string genHash();
     void mine(unsigned int difficulty);
     string getPrevHash();
+    string setMerkleHash();
     string getHash();
     int getDifficulty();
-    string get_timestamp();
+    int get_timestamp();
     int getTransactionCount();
     int getTransactionVolume();
-    double getVersion();
+    int getVersion();
     int getNonce();
 
 };
@@ -53,7 +56,7 @@ string Block::setMerkleHash(){
         hashMerkle += transactions[i].transactionId;
     }
     //merkleHash = hashFunction(hashMerkle);
-    return hashFunction(hashMerkle);
+    return md5(hashMerkle);
 };
 
 void Block::mine(unsigned int difficulty) {
@@ -68,7 +71,7 @@ void Block::mine(unsigned int difficulty) {
     string str(cstr);
 
     merkleHash = setMerkleHash();
-    
+
     while(curHash.substr(0, difficulty) !=str){
         nonce++;
         curHash = genHash();
@@ -76,10 +79,10 @@ void Block::mine(unsigned int difficulty) {
     cout << "Hash of block " << index << ": " << curHash << "\n";
 };
 
-string Block::genHash() {
+string Block::genHash() const{
     stringstream ss;
-    ss << index << timestamp << version << nonce << prevHash;
-    return hashFunction(ss.str());
+    ss << index << timestamp << curData << nonce << prevHash;
+    return md5(ss.str());
 };
 
 
@@ -87,7 +90,7 @@ int Block::getDifficulty(){
     return this->difficulty;
 };
 
-double Block::getVersion(){
+int Block::getVersion(){
     return this->version;
 };
 
@@ -95,7 +98,7 @@ int Block::getNonce(){
     return this->nonce;
 };
 
-string Block::get_timestamp() {
+int Block::get_timestamp() {
     return this->timestamp;
 };
 

@@ -2,6 +2,11 @@
     "files.associations": {
         "xstring": "cpp",
         "vector": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "iosfwd": "cpp",
+        "iostream": "cpp",
+        "sstream": "cpp",
+        "ios": "cpp",
+        "bitset": "cpp"
     }
 }

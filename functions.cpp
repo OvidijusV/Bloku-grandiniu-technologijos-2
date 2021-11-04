@@ -144,6 +144,7 @@ string hashFunction(string inputHash){
         variable++;
     };
     
+
     //cout << mixingString << endl;
 
     bitset<256> initialSet(HexToBin(mixingString));
@@ -154,20 +155,9 @@ string hashFunction(string inputHash){
         string converting;
         converting = initialSet.flip().to_string().substr(j, 4);   // binary padalinam po 4
         binaryToHex += BinToHex(converting);
-    
+
+
     };
     //cout << "Hex: " << binaryToHex << endl;
     return binaryToHex;
 };
-
-/*void addTransactionsToBlock(vector<Transaction> transactionToBlock, vector<Transaction> &transactionPool, int &numOfTransactions){
-    for(int i=0; i<100; i++){
-        int transactionIndex = rand() % numOfTransactions;
-        int transactionAmount = transactionPool[transactionIndex].amount;
-        transactionPool[transactionIndex].sender->setBalance(transactionPool[transactionIndex].sender->getBalance() - transactionAmount);
-        transactionPool[transactionIndex].receiver->setBalance(transactionPool[transactionIndex].receiver->getBalance() + transactionAmount);
-        transactionToBlock.push_back(transactionPool[transactionIndex]);
-        transactionPool.erase(transactionPool.begin()+(transactionIndex-1));
-        numOfTransactions--;
-    }
-}*/
